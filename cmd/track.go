@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"time"
 
 	"os/user"
@@ -41,32 +40,33 @@ func init() {
 	// trackCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func startTrack() error {
-	// get interval
-	interval := 60
-	fmt.Printf("track called with interval: %d seconds \n", interval)
-
+func track() {
+	t := time.Now()
 	user, err := user.Current()
 	if err != nil {
 		panic(err)
 	}
-	// fmt.Println("Hi " + user.Name + " (id: " + user.Uid + ")")
-
-	fmt.Println("---------")
+	// check active state
 	active, err := tracking.IsUserActive(user.Name, user.Uid)
 	if err != nil {
 		panic(err)
 	}
-
+	// check screensaver state
 	screensaver, err := tracking.IsScreenSaverOn()
 	if err != nil {
 		panic(err)
 	}
-
-	// fmt.Println("---------")
+	// increment
 	if active && !screensaver {
-		fmt.Println("user is active")
-		tracking.RecordActive(user.Username, time.Now())
+		tracking.RecordActive(user.Username, t)
 	}
-	return nil
+}
+
+func startTrack() {
+	nextTime := time.Now().Truncate(time.Minute)
+	for {
+		nextTime = nextTime.Add(time.Minute)
+		time.Sleep(time.Until(nextTime))
+		track()
+	}
 }
