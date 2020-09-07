@@ -33,7 +33,6 @@ func IsUserActive(username, userid string) (bool, error) {
 		}
 
 	}
-	fmt.Println(active)
 	return active, nil
 }
 

@@ -62,12 +62,15 @@ func track() {
 	}
 	// increment
 	if active && !screensaver {
-		minutesToday, err := tracking.RecordActive(filename, user.Username, t)
+		_, err := tracking.RecordActive(filename, user.Username, t)
 		if err != nil {
 			fmt.Println("error incrementing count:", err)
 		}
-		hoursActive := fmt.Sprintf("%.1f", float64(minutesToday)/60)
-		fmt.Println("current hours active today:", hoursActive)
+		// hoursActive := fmt.Sprintf("%.1f", float64(minutesToday)/60)
+		// fmt.Println("current hours active today:", hoursActive)
+		// if showIcon {
+
+		// }
 	}
 }
 

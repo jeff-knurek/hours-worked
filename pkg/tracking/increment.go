@@ -2,7 +2,9 @@ package tracking
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
+	"os"
 	"strconv"
 	"time"
 )
@@ -15,6 +17,7 @@ type days map[string]int
 // RecordActive increments the count of activity for the user provided on the datetime provided
 // return the current minutes active for today
 func RecordActive(filename, user string, currentTime time.Time) (int, error) {
+	checkFileExists(filename, user)
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return 0, err
@@ -53,4 +56,24 @@ func incrementTime(data years, t time.Time) (years, int) {
 		data[y] = months{m: {d: 1}}
 	}
 	return data, cur
+}
+
+func checkFileExists(filename, user string) {
+	if !fileExists(filename) {
+		// write empty obj to it
+		obj := userData{user: {}}
+		file, _ := json.MarshalIndent(obj, "", "    ")
+		err := ioutil.WriteFile(filename, file, 0644)
+		if err != nil {
+			panic(fmt.Errorf("not able to write to the new file: %s", err))
+		}
+	}
+}
+
+func fileExists(filename string) bool {
+	info, err := os.Stat(filename)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
 }
