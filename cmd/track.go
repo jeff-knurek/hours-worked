@@ -12,17 +12,18 @@ import (
 	"github.com/spf13/viper"
 )
 
+var showIcon bool
+
 // trackCmd represents the track command
 var trackCmd = &cobra.Command{
-	Use: "track",
-	// TODO: update the descriptions
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "track",
+	Short: "Track minutes that the user is active",
+	Long: `Track minutes that the user is active
+Usage of track:
+hours-worked track [OPTIONS]
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Hoours worked increments the minutes which the user is active in the UI.
+Configuration options can be set in the config file, and are created by default on the first run.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		startTrack()
 	},
