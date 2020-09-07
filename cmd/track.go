@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"time"
 
 	"os/user"
@@ -8,6 +9,7 @@ import (
 	"hours-worked/pkg/tracking"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // trackCmd represents the track command
@@ -46,6 +48,7 @@ func track() {
 	if err != nil {
 		panic(err)
 	}
+	filename := viper.GetString("tracking_file")
 	// check active state
 	active, err := tracking.IsUserActive(user.Name, user.Uid)
 	if err != nil {
@@ -58,7 +61,12 @@ func track() {
 	}
 	// increment
 	if active && !screensaver {
-		tracking.RecordActive(user.Username, t)
+		minutesToday, err := tracking.RecordActive(filename, user.Username, t)
+		if err != nil {
+			fmt.Println("error incrementing count:", err)
+		}
+		hoursActive := fmt.Sprintf("%.1f", float64(minutesToday)/60)
+		fmt.Println("current hours active today:", hoursActive)
 	}
 }
 
