@@ -2,9 +2,16 @@ package cmd
 
 import (
 	"fmt"
+	"os/user"
+	"time"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+
+	"hours-worked/pkg/reporting"
 )
+
+var output string
 
 // reportCmd represents the report command
 var reportCmd = &cobra.Command{
@@ -17,20 +24,24 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("report called")
+		runReport(output)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(reportCmd)
+	reportCmd.Flags().StringVarP(&output, "output", "o", "", "what format to output the report")
+}
 
-	// Here you will define your flags and configuration settings.
+func runReport(format string) {
+	user, err := user.Current()
+	if err != nil {
+		panic(err)
+	}
+	filename := viper.GetString("tracking_file")
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// reportCmd.PersistentFlags().String("foo", "", "A help for foo")
+	fmt.Println("hours worked this week:", reporting.HoursWorkedThisWeek(filename, user.Username))
+	fmt.Println("-------------")
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// reportCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	fmt.Println(reporting.TextCalendar(time.Now(), filename, user.Username))
 }
