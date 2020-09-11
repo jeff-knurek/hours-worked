@@ -6,13 +6,16 @@ import (
 
 	"os/user"
 
+	"hours-worked/pkg/reporting"
 	"hours-worked/pkg/tracking"
 
+	"github.com/getlantern/systray"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var showIcon bool
+var iconChoice string
 
 // trackCmd represents the track command
 var trackCmd = &cobra.Command{
@@ -25,6 +28,9 @@ hours-worked track [OPTIONS]
 Hoours worked increments the minutes which the user is active in the UI.
 Configuration options can be set in the config file, and are created by default on the first run.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if showIcon {
+			go systray.Run(startMenuItem, nil)
+		}
 		startTrack()
 	},
 }
@@ -32,15 +38,8 @@ Configuration options can be set in the config file, and are created by default 
 func init() {
 	rootCmd.AddCommand(trackCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// trackCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// trackCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	trackCmd.Flags().BoolVarP(&showIcon, "icon", "i", false, "add icon in menu bar that increments")
+	trackCmd.Flags().StringVar(&iconChoice, "icon-color", "light", "show a white or dark icon")
 }
 
 func track() {
@@ -62,15 +61,14 @@ func track() {
 	}
 	// increment
 	if active && !screensaver {
-		_, err := tracking.RecordActive(filename, user.Username, t)
+		minutesToday, err := tracking.RecordActive(filename, user.Username, t)
 		if err != nil {
 			fmt.Println("error incrementing count:", err)
 		}
-		// hoursActive := fmt.Sprintf("%.1f", float64(minutesToday)/60)
-		// fmt.Println("current hours active today:", hoursActive)
-		// if showIcon {
-
-		// }
+		if showIcon {
+			hoursActive := fmt.Sprintf("%.1f", float64(minutesToday)/60)
+			systray.SetTitle(hoursActive)
+		}
 	}
 }
 
@@ -81,4 +79,18 @@ func startTrack() {
 		time.Sleep(time.Until(nextTime))
 		track()
 	}
+}
+
+func startMenuItem() {
+	systray.SetTitle("starting up...")
+	systray.SetTooltip("hours worked today")
+	switch iconChoice {
+	case "light":
+		systray.SetTemplateIcon(nil, reporting.HourGlassIconLight)
+	case "dark":
+		systray.SetTemplateIcon(nil, reporting.HourGlassIconDark)
+	default:
+		systray.SetTemplateIcon(nil, reporting.HourGlassIconLight)
+	}
+	systray.AddMenuItem("hours active today", "hours active today")
 }
