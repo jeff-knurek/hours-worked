@@ -22,3 +22,10 @@ data format
         }
     },
 }
+
+-----
+In order to show the menu icon, `github.com/getlantern/systray` requires a few libraries: _(some may already be installed)_
+
+```
+sudo apt install gcc libgtk-3-dev libappindicator3-dev gir1.2-appindicator3
+```
