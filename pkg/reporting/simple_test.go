@@ -12,19 +12,19 @@ func Test_sumThisWeek(t *testing.T) {
 		name string
 		data years
 		t    time.Time
-		want int
+		want float64
 	}{
 		{
 			name: "just one day an hour and a half",
 			data: years{"2020": {"December": {"31": 90}}},
 			t:    dec,
-			want: 90 / 60,
+			want: float64(90) / 60,
 		},
 		{
 			name: "two days, lots of hours",
-			data: years{"2020": {"December": {"30": 1440, "31": 1440}}},
+			data: years{"2020": {"December": {"30": 1440, "31": 1443}}},
 			t:    dec,
-			want: 2880 / 60,
+			want: 2883.0 / 60,
 		},
 		{
 			name: "four days spanning one year",

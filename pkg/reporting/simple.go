@@ -30,14 +30,14 @@ func getTrackedData(filename, user string) years {
 
 // HoursWorkedThisWeek returns the total hours documented per day since Sunday
 // (ie work week starts Monday at 00:01)
-func HoursWorkedThisWeek(filename, user string) int {
+func HoursWorkedThisWeek(filename, user string) float64 {
 	data := getTrackedData(filename, user)
 	now := time.Now()
 
 	return sumThisWeek(data, now)
 }
 
-func sumThisWeek(data years, t time.Time) int {
+func sumThisWeek(data years, t time.Time) float64 {
 	thisDay := t
 	sum := 0
 	for i := int(t.Weekday()); i > 0; i-- {
@@ -51,5 +51,5 @@ func sumThisWeek(data years, t time.Time) int {
 		}
 		thisDay = thisDay.AddDate(0, 0, -1)
 	}
-	return sum / 60
+	return float64(sum) / 60
 }

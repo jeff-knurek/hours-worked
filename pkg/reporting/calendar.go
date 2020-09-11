@@ -31,7 +31,15 @@ func TextCalendar(t time.Time, filename, user string) string {
 		if d > lastTracked {
 			s += fmt.Sprintf("   . |")
 		} else {
-			s += fmt.Sprintf("  %2d |", trackedDays[strconv.Itoa(d)]/60)
+			h := float64(trackedDays[strconv.Itoa(d)]) / 60
+			switch {
+			case h > 10:
+				s += fmt.Sprintf("  %.0f |", h)
+			case h == 0:
+				s += fmt.Sprintf("   0 |")
+			default:
+				s += fmt.Sprintf(" %.1f |", h)
+			}
 		}
 		wd = (wd + 1) % wc
 		if wd == 0 {
