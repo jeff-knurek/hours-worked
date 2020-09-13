@@ -10,25 +10,25 @@ func Test_sumThisWeek(t *testing.T) {
 	jan, _ := time.Parse("2006-01-02 15:04", "2021-01-02 9:59")
 	tests := []struct {
 		name string
-		data years
+		data Years
 		t    time.Time
 		want float64
 	}{
 		{
 			name: "just one day an hour and a half",
-			data: years{"2020": {"December": {"31": 90}}},
+			data: Years{"2020": {"December": {"31": 90}}},
 			t:    dec,
 			want: float64(90) / 60,
 		},
 		{
 			name: "two days, lots of hours",
-			data: years{"2020": {"December": {"30": 1440, "31": 1443}}},
+			data: Years{"2020": {"December": {"30": 1440, "31": 1443}}},
 			t:    dec,
 			want: 2883.0 / 60,
 		},
 		{
 			name: "four days spanning one year",
-			data: years{"2020": {"December": {"27": 420, "30": 120, "31": 120}}, "2021": {"January": {"1": 120, "2": 120}}},
+			data: Years{"2020": {"December": {"27": 420, "30": 120, "31": 120}}, "2021": {"January": {"1": 120, "2": 120}}},
 			t:    jan,
 			want: 480 / 60,
 		},

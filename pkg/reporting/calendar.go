@@ -10,13 +10,14 @@ import (
 // TextCalendar is based on the Markdown calendar from github.com/binzume/go-calendar
 // it returns a month view of the tracked hours to be displayed as text/markdown
 func TextCalendar(t time.Time, filename, user string) string {
-	trackedData := getTrackedData(filename, user)
+	trackedData := getTrackedData(filename)
+	uData := trackedData[user]
 	weekLabels := []string{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}
 	y := strconv.Itoa(t.Year())
-	if trackedData[y] == nil || trackedData[y][t.Month().String()] == nil {
+	if uData[y] == nil || uData[y][t.Month().String()] == nil {
 		return "--no data tracked for this month--"
 	}
-	trackedDays := trackedData[y][t.Month().String()]
+	trackedDays := uData[y][t.Month().String()]
 
 	wc := len(weekLabels)
 	wd := (int(t.Weekday()) - (t.Day() - 1) + wc*30) % wc
