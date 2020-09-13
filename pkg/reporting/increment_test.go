@@ -1,4 +1,4 @@
-package tracking
+package reporting
 
 import (
 	"reflect"
@@ -13,37 +13,37 @@ func Test_incrementTime(t *testing.T) {
 	newYear, _ := time.Parse("2006-01-02 15:04", "2021-01-01 18:59")
 	tests := []struct {
 		name        string
-		y           years
+		y           Years
 		t           time.Time
-		want        years
+		want        Years
 		wantMinutes int
 	}{
 		{
 			name:        "increment existing",
-			y:           years{"2020": {"December": {"31": 4}}},
+			y:           Years{"2020": {"December": {"31": 4}}},
 			t:           sameHour,
-			want:        years{"2020": {"December": {"31": 5}}},
+			want:        Years{"2020": {"December": {"31": 5}}},
 			wantMinutes: 5,
 		},
 		{
 			name:        "new hour",
-			y:           years{"2020": {"December": {"31": 4}}},
+			y:           Years{"2020": {"December": {"31": 4}}},
 			t:           newHour,
-			want:        years{"2020": {"December": {"31": 5}}},
+			want:        Years{"2020": {"December": {"31": 5}}},
 			wantMinutes: 5,
 		},
 		{
 			name:        "new day",
-			y:           years{"2020": {"December": {"31": 180}}},
+			y:           Years{"2020": {"December": {"31": 180}}},
 			t:           newDay,
-			want:        years{"2020": {"December": {"31": 180, "30": 1}}},
+			want:        Years{"2020": {"December": {"31": 180, "30": 1}}},
 			wantMinutes: 1,
 		},
 		{
 			name:        "new year",
-			y:           years{"2020": {"December": {"31": 487}}},
+			y:           Years{"2020": {"December": {"31": 487}}},
 			t:           newYear,
-			want:        years{"2020": {"December": {"31": 487}}, "2021": {"January": {"1": 1}}},
+			want:        Years{"2020": {"December": {"31": 487}}, "2021": {"January": {"1": 1}}},
 			wantMinutes: 1,
 		},
 	}

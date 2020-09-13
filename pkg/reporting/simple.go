@@ -1,43 +1,20 @@
 package reporting
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"strconv"
 	"time"
 )
 
-// TODO - this structure is duplicated - shouled be shared
-type userData map[string]years
-type years map[string]months
-type months map[string]days
-type days map[string]int
-
-func getTrackedData(filename, user string) years {
-	data, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil
-	}
-	// unmarshall data from the file
-	var obj userData
-	err = json.Unmarshal(data, &obj)
-	if err != nil {
-		// possible that the file doesn't exist, or the user hasn't had any data collected yet
-		panic(err)
-	}
-	return obj[user]
-}
-
 // HoursWorkedThisWeek returns the total hours documented per day since Sunday
 // (ie work week starts Monday at 00:01)
 func HoursWorkedThisWeek(filename, user string) float64 {
-	data := getTrackedData(filename, user)
+	data := getTrackedData(filename)[user]
 	now := time.Now()
 
 	return sumThisWeek(data, now)
 }
 
-func sumThisWeek(data years, t time.Time) float64 {
+func sumThisWeek(data Years, t time.Time) float64 {
 	thisDay := t
 	sum := 0
 	for i := int(t.Weekday()); i > 0; i-- {

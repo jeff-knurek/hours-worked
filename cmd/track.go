@@ -61,7 +61,7 @@ func track() {
 	}
 	// increment
 	if active && !screensaver {
-		minutesToday, err := tracking.RecordActive(filename, user.Username, t)
+		minutesToday, err := reporting.RecordActive(filename, user.Username, t)
 		if err != nil {
 			fmt.Println("error incrementing count:", err)
 		}
