@@ -13,7 +13,7 @@ In order to show the menu icon, `github.com/getlantern/systray` requires a few l
 sudo apt install gcc libgtk-3-dev libappindicator3-dev gir1.2-appindicator3
 ```
 
-The latest release can be downloaded directly from the [release page](/releases)
+The latest release can be downloaded directly from the [release page](https://github.com/jeff-knurek/hours-worked/releases)
 
 ### systemctl
 
