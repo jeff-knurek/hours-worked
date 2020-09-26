@@ -9,11 +9,11 @@ Config values can be passed by cli args, and/or provided via `~/.hours-worked/co
 
 #### Menu icon
 
-<img src="./images/example-menu.png" width="35%" alt="Example of menu icon" />
+<img src="./images/example-menu.png" width="10%" alt="Example of menu icon" />
 
 #### CLI Text Report
 
-<img src="./images/example-cli-report.png" width="65%" alt="Example cli text report" />
+<img src="./images/example-cli-report.png" width="55%" alt="Example cli text report" />
 
 
 ## Install
