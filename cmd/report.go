@@ -43,5 +43,8 @@ func runReport(format string) {
 	fmt.Printf("hours worked this week: %.1f \n", reporting.HoursWorkedThisWeek(filename, user.Username))
 	fmt.Println("-------------")
 
+	fmt.Printf("hours worked this week: %.1f \n", reporting.HoursWorkedThisWeek(filename, user.Username))
+	fmt.Println("-------------")
+
 	fmt.Println(reporting.TextCalendar(time.Now(), filename, user.Username))
 }
