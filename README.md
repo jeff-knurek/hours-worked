@@ -5,6 +5,17 @@ Developed specifically for ubuntu 18.04 _(soon to be tested on 20.01)_. Focused 
 
 Config values can be passed by cli args, and/or provided via `~/.hours-worked/config.toml`. If that files doesn't exist on first run, a default one will be created.
 
+### Examples
+
+#### Menu icon
+
+<img src="./images/example-menu.png" width="35%" alt="Example of menu icon" />
+
+#### CLI Text Report
+
+<img src="./images/example-cli-report.png" width="65%" alt="Example cli text report" />
+
+
 ## Install
 
 In order to show the menu icon, `github.com/getlantern/systray` requires a few libraries: _(some may already be installed)_
