@@ -12,19 +12,23 @@ import (
 func TextCalendar(t time.Time, filename, user string) string {
 	trackedData := getTrackedData(filename)
 	uData := trackedData[user]
+	return textCalendar(uData, t)
+}
+
+func textCalendar(data Years, t time.Time) string {
 	weekLabels := []string{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}
 	y := strconv.Itoa(t.Year())
-	if uData[y] == nil || uData[y][t.Month().String()] == nil {
+	if data[y] == nil || data[y][t.Month().String()] == nil {
 		return "--no data tracked for this month--"
 	}
-	trackedDays := uData[y][t.Month().String()]
+	trackedDays := data[y][t.Month().String()]
 
 	wc := len(weekLabels)
 	wd := (int(t.Weekday()) - (t.Day() - 1) + wc*30) % wc
 	lastTracked := t.Day()
 	last := t.AddDate(0, 1, -t.Day()).Day()
 
-	s := t.Month().String() + " \n\n"
+	s := t.Month().String() + "\n\n"
 	s += "| " + strings.Join(weekLabels, " | ") + " |\n"
 	s += "|" + strings.Repeat("----:|", wc) + "\n"
 	s += "|" + strings.Repeat("     |", wd)
