@@ -41,9 +41,7 @@ func runReport(format string) {
 	filename := viper.GetString("tracking_file")
 
 	fmt.Printf("hours worked this week: %.1f \n", reporting.HoursWorkedThisWeek(filename, user.Username))
-	fmt.Println("-------------")
-
-	fmt.Printf("hours worked this week: %.1f \n", reporting.HoursWorkedThisWeek(filename, user.Username))
+	fmt.Printf("hours worked this month: %.1f \n", reporting.HoursWorkedThisMonth(filename, user.Username))
 	fmt.Println("-------------")
 
 	fmt.Println(reporting.TextCalendar(time.Now(), filename, user.Username))
