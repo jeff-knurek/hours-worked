@@ -39,9 +39,11 @@ func runReport(format string) {
 		panic(err)
 	}
 	filename := viper.GetString("tracking_file")
+	daysOff := viper.GetStringSlice("days_off")
 
 	fmt.Printf("hours worked this week: %.1f \n", reporting.HoursWorkedThisWeek(filename, user.Username))
-	fmt.Printf("hours worked this month: %.1f \n", reporting.HoursWorkedThisMonth(filename, user.Username))
+	fmt.Printf("hours worked this month: %.1f \n", reporting.HoursWorkedThisMonth(filename, user.Username, daysOff))
+	fmt.Printf("   out of possible days: %d \n", reporting.AvailableDaysThisMonth(time.Now(), daysOff))
 	fmt.Println("-------------")
 
 	fmt.Println(reporting.TextCalendar(time.Now(), filename, user.Username))

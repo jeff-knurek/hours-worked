@@ -55,6 +55,7 @@ func Test_sumThisMonth(t *testing.T) {
 		name string
 		data Years
 		t    time.Time
+		off  []string
 		want float64
 	}{
 		{
@@ -87,11 +88,53 @@ func Test_sumThisMonth(t *testing.T) {
 			t:    dec,
 			want: 660 / 60,
 		},
+		{
+			name: "two days, one off",
+			data: Years{"2020": {"December": {"30": 1440, "31": 1443}}},
+			t:    dec,
+			off:  []string{"2020-12-31"},
+			want: 1440.0 / 60,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := sumThisMonth(tt.data, tt.t); got != tt.want {
+			if got := sumThisMonth(tt.data, tt.t, tt.off); got != tt.want {
 				t.Errorf("sumThisMonth() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_workingDays(t *testing.T) {
+	dec, _ := time.Parse("2006-01-02 15:04", "2020-12-31 9:59")
+	jan, _ := time.Parse("2006-01-02 15:04", "2021-01-02 9:59")
+	tests := []struct {
+		name string
+		t    time.Time
+		off  []string
+		want int
+	}{
+		{
+			name: "last day of month",
+			t:    dec,
+			want: 23,
+		},
+		{
+			name: "2nd day of month is Saturday",
+			t:    jan,
+			want: 1,
+		},
+		{
+			name: "last day of month, two days off",
+			t:    dec,
+			off:  []string{"2020-12-25", "2020-12-31"},
+			want: 21,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := AvailableDaysThisMonth(tt.t, tt.off); got != tt.want {
+				t.Errorf("workingDays() = %v, want %v", got, tt.want)
 			}
 		})
 	}
