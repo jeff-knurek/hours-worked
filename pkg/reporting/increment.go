@@ -44,6 +44,10 @@ func incrementTime(data Years, t time.Time) (Years, int) {
 	if data[y] != nil {
 		if data[y][m] != nil {
 			cur = data[y][m][d] + 1
+			// if worked 6 hours, add a 30 minute "lunch"
+			if cur == 361 {
+				cur += 30
+			}
 			data[y][m][d] = cur
 		} else {
 			data[y][m] = Days{d: 1}

@@ -46,6 +46,20 @@ func Test_incrementTime(t *testing.T) {
 			want:        Years{"2020": {"December": {"31": 487}}, "2021": {"January": {"1": 1}}},
 			wantMinutes: 1,
 		},
+		{
+			name:        "30 minute lunch",
+			y:           Years{"2020": {"December": {"31": 360}}},
+			t:           sameHour,
+			want:        Years{"2020": {"December": {"31": 391}}},
+			wantMinutes: 391,
+		},
+		{
+			name:        "30 minute lunch was missed",
+			y:           Years{"2020": {"December": {"31": 361}}},
+			t:           sameHour,
+			want:        Years{"2020": {"December": {"31": 362}}},
+			wantMinutes: 362,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
