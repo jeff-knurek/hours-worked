@@ -39,6 +39,7 @@ func TestTextCalendar(t *testing.T) {
 			t:    dec,
 			want: "--no data tracked for this month--",
 		},
+
 		{
 			name: "two months",
 			data: Years{"2020": {"December": {"27": 420, "30": 120}}, "2021": {"January": {"1": 120, "2": 120}}},
