@@ -32,14 +32,12 @@ func TestTextCalendar(t *testing.T) {
 		|   0 |   0 |   0 |   0 |   0 |   0 |   0 |
 		| 7.0 |   0 |   0 | 2.0 | 2.0 |     |     |`, "\t", "", -1),
 		},
-
 		{
 			name: "no data this month",
 			data: Years{"2020": {"October": {"27": 420, "30": 120, "31": 120}}},
 			t:    dec,
 			want: "--no data tracked for this month--",
 		},
-
 		{
 			name: "two months",
 			data: Years{"2020": {"December": {"27": 420, "30": 120}}, "2021": {"January": {"1": 120, "2": 120}}},
