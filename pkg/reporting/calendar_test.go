@@ -6,8 +6,11 @@ import (
 	"time"
 )
 
+
+
 func TestTextCalendar(t *testing.T) {
 	dec, _ := time.Parse("2006-01-02 15:04", "2020-12-31 9:59")
+	dec, _ = time.Parse("2006-01-02 15:04", "2020-12-31 9:59")
 	jan, _ := time.Parse("2006-01-02 15:04", "2021-01-02 9:59")
 	tests := []struct {
 		name string
